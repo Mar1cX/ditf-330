@@ -4,7 +4,7 @@ import java.util.Set;
 import java.util.HashSet;
 
 public class PerfectNumber {
-    public enum STATE { ABUNDANT, DEFICIENT, PERFECT; }
+    public enum STATE { ABUNDANT, DEFICIENT, PERFECT, ERROR; }
 
     public static Set<Integer> divisors(int n) {
         Set divisors_set = new HashSet();
@@ -27,7 +27,11 @@ public class PerfectNumber {
     }
 
     public static STATE detect(int n) {
-        divisors(n);
-        return process(n);
+        try {
+            if (n <= 0) { throw new java.lang.Error("Skaitlis nav pozitivs"); };
+            return process(n);
+        } catch(Error e) {
+            return STATE.ERROR;
+        }
     }
 }
