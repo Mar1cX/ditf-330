@@ -1,37 +1,39 @@
 package imperative;
 
-import java.util.Set;
-import java.util.HashSet;
+import java.util.*;
+import java.util.function.*;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class PerfectNumber {
-    public enum STATE { ABUNDANT, DEFICIENT, PERFECT, ERROR; }
+    public enum STATE {
+        PERFECT(0), DEFICIENT(-1), ABUNDANT(1), ERROR(2);
+        private final int value;
+        STATE(int value) { this.value = value; }
+
+        public static Optional<STATE> valueOf(int value) {
+            return Arrays.stream(values())
+                    .filter(STATE -> STATE.value == value)
+                    .findFirst();
+        }
+    }
 
     public static Set<Integer> divisors(int n) {
-        Set divisors_set = new HashSet();
-        for(int i = 1; i <= n; i++) {
-            if (n % i == 0) { divisors_set.add(i); }
-        }
-        return divisors_set;
+        return IntStream
+                .range(1, n + 1).filter(i -> n % i == 0)
+                .boxed().collect(Collectors.toSet());
     }
 
     public static STATE process(int n) {
-        int summerized_divisors = divisors(n).stream().mapToInt(Integer::intValue).sum() / 2;
-
-        if (summerized_divisors == n) {
-            return STATE.PERFECT;
-        } else if (summerized_divisors < n) {
-            return STATE.DEFICIENT;
-        } else {
-            return STATE.ABUNDANT;
-        }
+        Function<Integer, Integer> toSignum = i -> Integer.signum(i);
+        int sum = divisors(n).stream().mapToInt(Integer::intValue).sum() / 2;
+        return STATE.valueOf(toSignum.apply(sum - n)).get();
     }
 
     public static STATE detect(int n) {
-        try {
-            if (n <= 0) { throw new java.lang.Error("Skaitlis nav pozitivs"); };
-            return process(n);
-        } catch(Error e) {
-            return STATE.ERROR;
-        }
+        return Optional.of(n)
+                .filter(i -> i > 0)
+                .map(i -> process(i))
+                .orElse(STATE.ERROR);
     }
 }
