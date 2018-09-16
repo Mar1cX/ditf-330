@@ -31,12 +31,9 @@ public class PerfectNumber {
     }
 
     public static STATE detect(int n) {
-        Predicate<Integer> isNegativeOrZero = i -> i <= 0;
-        try {
-            if (isNegativeOrZero.test(n)) throw new java.lang.Error("Negative number");
-            return process(n);
-        } catch(Error e) {
-            return STATE.ERROR;
-        }
+        return Optional.of(n)
+                .filter(i -> i > 0)
+                .map(i -> process(i))
+                .orElse(STATE.ERROR);
     }
 }
