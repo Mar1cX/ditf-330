@@ -20,8 +20,11 @@ public class PerfectNumber {
 
     public static Set<Integer> divisors(int n) {
         return IntStream
-                .range(1, n + 1).filter(i -> n % i == 0)
-                .boxed().collect(Collectors.toSet());
+                .rangeClosed(1, (int)Math.sqrt(n))
+                .flatMap(i -> IntStream.of(i, n/i))
+                .filter(i -> n % i == 0)
+                .boxed()
+                .collect(Collectors.toSet());
     }
 
     public static STATE process(int n) {
