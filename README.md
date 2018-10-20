@@ -9,3 +9,5 @@
   - 2 With Functional Programming - https://github.com/Mar1cX/ditf-330/pull/8
 ### Scala: Newton square root method - ld3:
   - 3 With Functional Programming - https://github.com/Mar1cX/ditf-330/pull/9
+### Scala: RTUSet functions - ld4:
+  - 4 With Functional Programming - https://github.com/Mar1cX/ditf-330/pull/10
