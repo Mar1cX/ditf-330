@@ -2,7 +2,6 @@ import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
-import Isogram
 
 @RunWith(Parameterized::class)
 class IsogramTest(val input: String, val expectedOutput: Boolean) {
